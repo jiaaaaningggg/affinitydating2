@@ -7,14 +7,26 @@
 
 import UIKit
 import CoreData
+import CometChatPro
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
-
+    var window: UIWindow?
+      let appId: String = "2030654ba877ff70"
+      let region: String = "us"
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
+        let mySettings = AppSettings.AppSettingsBuilder().subscribePresenceForAllUsers().setRegion(region: region).build()
+                
+          CometChat.init(appId: appId ,appSettings: mySettings,onSuccess: { (isSuccess) in
+                    if (isSuccess) {
+                        print("CometChat Pro SDK intialise successfully.")
+                    }
+                }) { (error) in
+                        print("CometChat Pro SDK failed intialise with error: \(error.errorDescription)")
+                }
         return true
     }
 
